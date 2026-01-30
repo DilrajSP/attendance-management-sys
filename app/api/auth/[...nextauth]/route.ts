@@ -1,4 +1,4 @@
-export const runtime = "nodejs";
+
 
 import { authOptions } from "@/auth";
 import NextAuth from "next-auth";
