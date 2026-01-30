@@ -8,7 +8,6 @@ const caPath = path.join(process.cwd(), "ca.pem");
 const hasCa = fs.existsSync(caPath);
 
 // 🔍 this log is IMPORTANT (you already saw this fix things)
-console.log("🔐 ca.pem exists:", hasCa);
 
 const sslConfig = hasCa
   ? {
