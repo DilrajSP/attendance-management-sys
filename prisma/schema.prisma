@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+}
+
+model User {
+  id   Int  @id @default(autoincrement())
+  role Role
+
+  //AUTH
+  password  String
+  email     String?  @unique
+  createdAt DateTime @default(now())
+
+  //COMMON PROFILE
+  name String?
+
+  //STUDENT-SPECIFIC
+  studentCode  String? @unique
+  rollNo       String? @unique
+  course       String?
+  year         Int?
+  section      String?
+  isFirstLogin Boolean @default(true)
+
+  //TEACHER-SPECIFIC
+  username String? @unique
+
+  //RELATIONS
+  createdSessions   AttendanceSession[] @relation("TeacherSessions")
+  attendanceRecords AttendanceRecord[]
+
+  @@index([course, year, section])
+  @@index([role])
+}
+
+model AttendanceSession {
+  id Int @id @default(autoincrement())
+
+  //CLASS INFO
+  course  String
+  year    Int
+  section String
+  subject String
+  otp     String
+
+  //TEACHER
+  teacherId Int
+  teacher   User @relation("TeacherSessions", fields: [teacherId], references: [id])
+
+  //TIMING & LIFECYLE
+  date        DateTime @default(now())
+  expiresAt   DateTime
+  deleteAfter DateTime
+  isLocked    Boolean  @default(false)
+
+  //RELATIONS
+  createdAt DateTime           @default(now())
+  records   AttendanceRecord[]
+
+  //INDEXES FOR PERFOMANCE
+  @@index([course, year, section, date])
+  @@index([expiresAt])
+}
+
+model AttendanceRecord {
+  id Int @id @default(autoincrement())
+
+  //RELATIONS
+  sessionId Int
+  session   AttendanceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  studentId Int
+  student   User @relation(fields: [studentId], references: [id])
+
+  //ATTENDANCE DATA
+  status   AttendanceStatus
+  markedAt DateTime         @default(now())
+
+  //CONSTRAINST & INDEXES
+  @@unique([sessionId, studentId])
+  @@index([studentId])
+}
