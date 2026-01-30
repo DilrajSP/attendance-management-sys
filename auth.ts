@@ -101,7 +101,6 @@ export const authOptions: NextAuthOptions = {
         session.user.userCode = token.userCode;
         session.user.isFirstLogin = token.isFirstLogin;
       }
-      console.log(session);
       return session;
     },
   },
