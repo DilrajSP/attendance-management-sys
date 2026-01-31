@@ -29,5 +29,4 @@ export async function updateStudentProfile(formData: FormData) {
     },
   });
 
-  redirect("/student/dashboard");
 }
