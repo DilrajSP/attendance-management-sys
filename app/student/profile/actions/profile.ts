@@ -3,7 +3,6 @@
 import { authOptions } from "@/auth";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 export async function updateStudentProfile(formData: FormData) {
   const session = await getServerSession(authOptions);
@@ -20,12 +19,17 @@ export async function updateStudentProfile(formData: FormData) {
     return { error: "All fields are required" };
   }
 
-  await prisma.user.update({
-    where: { id: Number(session.user.id) },
-    data: {
-      course,
-      section,
-      year,
-    },
-  });
+  try {
+    await prisma.user.update({
+      where: { id: Number(session.user.id) },
+      data: {
+        course,
+        section,
+        year: Number(year),
+      },
+    });
+    return { success: true };
+  } catch (e) {
+    return { error: "Failed to update profile database" };
+  }
 }
