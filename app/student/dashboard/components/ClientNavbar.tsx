@@ -31,7 +31,7 @@ export default function ClientNavbar() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
               <Avatar className="h-8 w-8">
-                <AvatarFallback className=" text-xs">
+                <AvatarFallback className="text-xs bg-gray-800">
                   {initial}
                 </AvatarFallback>
               </Avatar>
@@ -51,7 +51,7 @@ export default function ClientNavbar() {
             <DropdownMenuItem asChild>
               <Link
                 href="/student/profile"
-                className="cursor-pointer"
+                className="cursor-pointer focus:bg-zinc-800"
               >
                 Profile
               </Link>
@@ -61,7 +61,7 @@ export default function ClientNavbar() {
               <Link
                 href="/change-password"
                 target="_blank"
-                className="cursor-pointer focus:"
+                className="cursor-pointer focus:bg-zinc-800"
               >
                 Change Password
               </Link>
@@ -71,7 +71,7 @@ export default function ClientNavbar() {
 
             <DropdownMenuItem
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="cursor-pointer text-red-400 focus:text-red-400"
+              className="cursor-pointer focus:bg-zinc-800 text-red-500 focus:text-red-500 font-semibold"
             >
               Sign out
             </DropdownMenuItem>

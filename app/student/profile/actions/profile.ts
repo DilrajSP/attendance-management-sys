@@ -9,7 +9,7 @@ export async function updateStudentProfile(formData: FormData) {
   const session = await getServerSession(authOptions);
 
   if (!session || session.user.role !== "STUDENT") {
-    throw new Error("Unauthorized");
+    return { error: "Unauthorized!" };
   }
 
   const course = formData.get("course") as string;
@@ -17,7 +17,7 @@ export async function updateStudentProfile(formData: FormData) {
   const year = Number(formData.get("year"));
 
   if (!course || !section || !year) {
-    throw new Error("All fields are required");
+    return { error: "All fields are required" };
   }
 
   await prisma.user.update({

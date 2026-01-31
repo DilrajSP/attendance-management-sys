@@ -92,7 +92,7 @@
 
   .dark {
     /* Dark Mode: Deep Midnight Navy */
-    --background: oklch(0.18 0.03 260);
+    --background: oklch(14.625% 0.00645 285.547);
     --foreground: oklch(0.95 0.02 260);
     --card: oklch(0.21 0.03 260);
     --card-foreground: oklch(0.95 0.02 260);
