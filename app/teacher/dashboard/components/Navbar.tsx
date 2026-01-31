@@ -65,7 +65,7 @@ export default function Navbar() {
 
             <DropdownMenuItem
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="cursor-pointer focus:bg-zinc-800 text-red-400 focus:text-red-400 font-semibold"
+              className="cursor-pointer focus:bg-zinc-800 text-red-400 focus:text-red-400"
             >
               Sign out
             </DropdownMenuItem>
