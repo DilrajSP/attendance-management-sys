@@ -28,5 +28,4 @@ export async function updateStudentProfile(formData: FormData) {
       year,
     },
   });
-
 }

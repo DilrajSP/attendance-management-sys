@@ -24,8 +24,8 @@ export default function StudentProfileForm({ student }: { student: any }) {
       toast.error(result.error); // ✅ Shows red toast error
     } else {
       toast.success("Profile updated!");
-      router.push("/student/dashboard"); // ✅ Redirects on success
       router.refresh();
+      router.push("/student/dashboard"); // ✅ Redirects on success
     }
   }
 
