@@ -22,11 +22,10 @@ export default function StudentProfileForm({ student }: { student: any }) {
 
     if (result?.error) {
       toast.error(result.error); // ✅ Shows red toast error
-    } else {
-      toast.success("Profile updated!");
-      router.refresh();
-      router.push("/student/dashboard"); // ✅ Redirects on success
+      return;
     }
+    toast.success("Profile updated!");
+    router.push("/student/dashboard"); // ✅ Redirects on success
   }
 
   return (

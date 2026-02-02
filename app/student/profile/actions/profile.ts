@@ -3,6 +3,7 @@
 import { authOptions } from "@/auth";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 export async function updateStudentProfile(formData: FormData) {
   const session = await getServerSession(authOptions);
@@ -13,7 +14,7 @@ export async function updateStudentProfile(formData: FormData) {
 
   const course = formData.get("course") as string;
   const section = formData.get("section") as string;
-  const year = Number(formData.get("year"));
+  const year = formData.get("year");
 
   if (!course || !section || !year) {
     return { error: "All fields are required" };
@@ -28,8 +29,13 @@ export async function updateStudentProfile(formData: FormData) {
         year: Number(year),
       },
     });
+
+    // Clear the cache for the dashboard and profile pages
+    revalidatePath("/student/dashboard");
+    revalidatePath("/student/profile");
     return { success: true };
   } catch (e) {
+    console.log(e);
     return { error: "Failed to update profile database" };
   }
 }

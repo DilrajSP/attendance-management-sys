@@ -8,21 +8,29 @@ import { toast } from "sonner";
 import { signOut } from "next-auth/react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { changePassword } from "@/app/actions/changePassword";
 
 // 1. Validation Schema
-const passwordSchema = z.object({
-  currentPassword: z.string().min(1, "Current password is required"),
-  newPassword: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string()
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
+const passwordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "Current password is required"),
+    newPassword: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 type PasswordFormValues = z.infer<typeof passwordSchema>;
 
@@ -30,19 +38,40 @@ export default function ChangePasswordForm() {
   const [isPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<PasswordFormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordSchema),
-    defaultValues: { currentPassword: "", newPassword: "", confirmPassword: "" },
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
   });
 
   const onSubmit = (values: PasswordFormValues) => {
     startTransition(async () => {
       try {
-        await changePassword(values.currentPassword, values.newPassword);
-        toast.success("Password updated successfully");
-        await signOut({ callbackUrl: "/" });
-      } catch (err: any) {
-        toast.error(err.message || "Failed to update password");
+        const result = await changePassword(
+          values.currentPassword,
+          values.newPassword,
+        );
+        if (result?.error) {
+          toast.error(result.error);
+          return;
+        }
+        toast.success("Password updated successfully!");
+        // clear the form
+        reset();
+
+        setTimeout(async () => {
+          await signOut({ callbackUrl: "/" });
+        }, 1500);
+      } catch (error) {
+        toast.error("An unexpected error occurred. Please try again.");
       }
     });
   };
@@ -50,7 +79,9 @@ export default function ChangePasswordForm() {
   return (
     <Card className="w-full border-none shadow-none sm:border sm:shadow-sm max-w-md mx-auto">
       <CardHeader className="space-y-1 px-4 sm:px-6">
-        <CardTitle className="text-xl sm:text-2xl text-center">Security</CardTitle>
+        <CardTitle className="text-xl sm:text-2xl text-center">
+          Security
+        </CardTitle>
         <CardDescription className="text-center">
           Update your password to keep your account secure.
         </CardDescription>
@@ -58,7 +89,6 @@ export default function ChangePasswordForm() {
 
       <CardContent className="p-4 sm:p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          
           {/* Current Password */}
           <div className="space-y-2">
             <Label htmlFor="currentPassword">Current Password</Label>
@@ -71,7 +101,9 @@ export default function ChangePasswordForm() {
               disabled={isPending}
             />
             {errors.currentPassword && (
-              <p className="text-xs text-destructive">{errors.currentPassword.message}</p>
+              <p className="text-xs text-destructive">
+                {errors.currentPassword.message}
+              </p>
             )}
           </div>
 
@@ -96,7 +128,9 @@ export default function ChangePasswordForm() {
               </button>
             </div>
             {errors.newPassword && (
-              <p className="text-xs text-destructive">{errors.newPassword.message}</p>
+              <p className="text-xs text-destructive">
+                {errors.newPassword.message}
+              </p>
             )}
           </div>
 
@@ -112,11 +146,17 @@ export default function ChangePasswordForm() {
               disabled={isPending}
             />
             {errors.confirmPassword && (
-              <p className="text-xs text-destructive">{errors.confirmPassword.message}</p>
+              <p className="text-xs text-destructive">
+                {errors.confirmPassword.message}
+              </p>
             )}
           </div>
 
-          <Button type="submit" className="w-full h-11 text-base sm:h-10 sm:text-sm" disabled={isPending}>
+          <Button
+            type="submit"
+            className="w-full h-11 text-base sm:h-10 sm:text-sm"
+            disabled={isPending}
+          >
             {isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -10,7 +10,7 @@ export async function changePassword(
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
-    throw new Error("Unauthorized");
+    return { error: "Unauthorized!" };
   }
 
   const userId = Number(session.user.id);
@@ -20,32 +20,36 @@ export async function changePassword(
   });
 
   if (!user) {
-    throw new Error("User not found");
+    return { error: "User not found!" };
   }
 
   // verify old password
   const isValid = await bcrypt.compare(currentPassword, user.password);
 
   if (!isValid) {
-    throw new Error("Current password is incorrect");
+    return { error: "Current password is incorrect" };
   }
 
   // prevent same password reuse
   const samePassword = await bcrypt.compare(newPassword, user.password);
 
   if (samePassword) {
-    throw new Error("New password must be different");
+    return { error: "New password must be different" };
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-  await prisma.user.update({
-    where: { id: userId },
-    data: {
-      password: hashedPassword,
-      isFirstLogin: false,
-    },
-  });
-
-  return { success: true };
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        password: hashedPassword,
+        isFirstLogin: false,
+      },
+    });
+    return { success: true };
+  } catch (e) {
+    console.log(e);
+    return { error: "Failed to update Password" };
+  }
 }
