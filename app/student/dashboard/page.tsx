@@ -10,7 +10,7 @@ export default async function StudentDashboardPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold">Welcome, {student?.name}</h1>
-        <p className="text-zinc-400 text-sm">
+        <p className="text-muted-foreground text-sm">
           Student ID: {student?.studentCode}
         </p>
       </div>
@@ -27,7 +27,7 @@ export default async function StudentDashboardPage() {
         <ActiveAttendanceCard session={activeSession} />
       ) : (
         !needsProfileSetup && (
-          <div className="text-zinc-400 text-sm">
+          <div className="text-muted-foreground text-sm">
             No active attendance session.
           </div>
         )

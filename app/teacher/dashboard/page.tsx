@@ -13,7 +13,7 @@
         {/* Header */}
         <div>
           <h1 className="text-2xl font-semibold">Welcome, {teacherName}</h1>
-          <p className="text-zinc-400 text-sm">Manage attendance sessions</p>
+          <p className="text-primary text-sm">Manage attendance sessions</p>
         </div>
 
         {/* Active / Empty State */}

@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import StudentProfileForm from "./components/StudentProfileForm";
-
+import NoSSR from "@/components/NoSSR";
 
 export default async function StudentProfilePage() {
   const session = await getServerSession(authOptions);
@@ -27,16 +27,18 @@ export default async function StudentProfilePage() {
   if (!student) redirect("/");
 
   return (
-    <div className="max-w-xl mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>Student Profile</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* ✅ Pass the data to the Client Form */}
-          <StudentProfileForm student={student} />
-        </CardContent>
-      </Card>
+    <div className="flex justify-center items-center min-h-[80vh]">
+      <NoSSR>
+        <Card className="w-full border-none shadow-none sm:shadow-sm max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle>Student Profile</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {/* ✅ Pass the data to the Client Form */}
+            <StudentProfileForm student={student} />
+          </CardContent>
+        </Card>
+      </NoSSR>
     </div>
   );
 }

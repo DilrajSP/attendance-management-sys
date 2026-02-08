@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createAttendanceSession } from "../actions/createAttendanceSession";
+import { Button } from "@/components/ui/button";
 
 export default function CreateSessionForm() {
   const router = useRouter();
@@ -111,13 +112,13 @@ export default function CreateSessionForm() {
         {error && <p className="col-span-full text-sm text-red-400">{error}</p>}
 
         {/* Submit */}
-        <button
+        <Button
           type="submit"
           disabled={isPending}
-          className="col-span-full h-11 mt-2 rounded bg-indigo-600 hover:bg-indigo-500 transition disabled:opacity-50"
+          className="col-span-full h-11 mt-2 rounded transition disabled:opacity-50"
         >
           {isPending ? "Starting..." : "Start Session (10 min)"}
-        </button>
+        </Button>
       </form>
     </div>
   );

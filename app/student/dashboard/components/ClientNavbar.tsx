@@ -13,66 +13,52 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { LockKeyhole, LogOut, User } from "lucide-react";
 
 export default function ClientNavbar() {
   const { data: session } = useSession();
   const initial = session?.user?.name?.charAt(0).toUpperCase() ?? "S";
 
   return (
-    <header className="h-14 border-b border-zinc-800 bg-zinc-950 flex items-center px-6">
+    <header className="h-14 w-full sticky z-50 top-0 border-b backdrop-blur-md border-white/5 flex items-center px-6">
       {/* Left */}
-      <div className="text-sm font-semibold tracking-wide">
-        Attendance System
-      </div>
-
+      <div className="text-sm font-semibold tracking-wide">AMS</div>
       {/* Right */}
       <div className="ml-auto">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="text-xs bg-gray-800">
-                  {initial}
-                </AvatarFallback>
+              <Avatar>
+                <AvatarFallback className="text-xs">{initial}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-
-          <DropdownMenuContent
-            align="end"
-            className="w-48 bg-zinc-900 border-zinc-800 text-zinc-100"
-          >
-            <DropdownMenuLabel>
-              {session?.user?.name}
-            </DropdownMenuLabel>
-
+          <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-
             <DropdownMenuItem asChild>
-              <Link
-                href="/student/profile"
-                className="cursor-pointer focus:bg-zinc-800"
-              >
+              <Link href="/student/profile" className="cursor-pointer">
+                <User />
                 Profile
               </Link>
             </DropdownMenuItem>
-
             <DropdownMenuItem asChild>
               <Link
                 href="/change-password"
                 target="_blank"
-                className="cursor-pointer focus:bg-zinc-800"
+                className="cursor-pointer"
               >
+                <LockKeyhole />
                 Change Password
               </Link>
             </DropdownMenuItem>
-
             <DropdownMenuSeparator />
-
             <DropdownMenuItem
+              variant="destructive"
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="cursor-pointer focus:bg-zinc-800 text-red-500 focus:text-red-500"
+              className="cursor-pointer"
             >
+              <LogOut />
               Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>

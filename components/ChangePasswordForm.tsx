@@ -77,7 +77,7 @@ export default function ChangePasswordForm() {
   };
 
   return (
-    <Card className="w-full border-none shadow-none sm:border sm:shadow-sm max-w-md mx-auto">
+    <Card className="w-full border-none shadow-none sm:shadow-sm max-w-md mx-auto">
       <CardHeader className="space-y-1 px-4 sm:px-6">
         <CardTitle className="text-xl sm:text-2xl text-center">
           Security
