@@ -23,16 +23,22 @@ export default function Navbar() {
   const initial = session?.user?.name?.charAt(0).toUpperCase() ?? "T";
 
   return (
-    <header className="h-14 w-full border-b sticky z-50 top-0 backdrop-blur-md border-white/5 flex items-center px-6">
+    <header className="h-14 w-full border-b sticky z-50 top-0 backdrop-blur-md border-white/5 bg-black/40 flex items-center px-6">
       {/* Left */}
       <div className="text-sm font-semibold tracking-wide">AMS</div>
       {/* Right */}
       <div className="ml-auto">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full focus-visible:ring-0"
+            >
               <Avatar>
-                <AvatarFallback>{initial}</AvatarFallback>
+                <AvatarFallback className="text-xs bg-black/40 border border-white/15 backdrop-blur-xl">
+                  {initial}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>

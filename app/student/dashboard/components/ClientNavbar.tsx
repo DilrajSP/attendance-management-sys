@@ -20,16 +20,22 @@ export default function ClientNavbar() {
   const initial = session?.user?.name?.charAt(0).toUpperCase() ?? "S";
 
   return (
-    <header className="h-14 w-full sticky z-50 top-0 border-b backdrop-blur-md border-white/5 flex items-center px-6">
+    <header className="h-14 w-full sticky z-50 top-0 border-b backdrop-blur-md border-white/5 bg-black/40 flex items-center px-6">
       {/* Left */}
       <div className="text-sm font-semibold tracking-wide">AMS</div>
       {/* Right */}
       <div className="ml-auto">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full focus-visible:ring-0"
+            >
               <Avatar>
-                <AvatarFallback className="text-xs">{initial}</AvatarFallback>
+                <AvatarFallback className="text-xs bg-black/40 border border-white/15 backdrop-blur-xl">
+                  {initial}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>

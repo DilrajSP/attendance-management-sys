@@ -27,10 +27,10 @@ export default async function StudentProfilePage() {
   if (!student) redirect("/");
 
   return (
-    <div className="flex justify-center items-center min-h-[80vh]">
+    <div className="flex flex-col justify-center items-center min-h-screen px-4">
       <NoSSR>
-        <Card className="w-full border-none shadow-none sm:shadow-sm max-w-md mx-auto">
-          <CardHeader>
+        <Card className="w-full shadow-none sm:shadow-sm max-w-sm mx-auto">
+          <CardHeader className="text-center text-xl sm:text-2xl">
             <CardTitle>Student Profile</CardTitle>
           </CardHeader>
           <CardContent>

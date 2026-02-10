@@ -10,7 +10,7 @@ export default async function ChangePasswordPage() {
   if (!session) redirect("/");
 
   return (
-    <div className="flex justify-center items-center min-h-[80vh]">
+    <div className="flex flex-col justify-center items-center min-h-screen px-4">
       <NoSSR>
         <ChangePasswordForm />
       </NoSSR>

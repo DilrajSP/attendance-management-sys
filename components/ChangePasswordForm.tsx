@@ -77,7 +77,7 @@ export default function ChangePasswordForm() {
   };
 
   return (
-    <Card className="w-full border-none shadow-none sm:shadow-sm max-w-md mx-auto">
+    <Card className="w-full shadow-none sm:shadow-sm max-w-sm mx-auto">
       <CardHeader className="space-y-1 px-4 sm:px-6">
         <CardTitle className="text-xl sm:text-2xl text-center">
           Security
@@ -154,7 +154,7 @@ export default function ChangePasswordForm() {
 
           <Button
             type="submit"
-            className="w-full h-11 text-base sm:h-10 sm:text-sm"
+            className="w-full h-11 text-sm sm:h-10"
             disabled={isPending}
           >
             {isPending ? (
