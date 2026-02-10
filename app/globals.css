@@ -130,20 +130,14 @@
     background-image: none;
   }
 
-  /* Dark Mode: The "Rush" Mesh Gradient */
   .dark body {
     background-color: #030303;
     background-image: 
       /* 1. Purple Glow Top Right (To test your Navbar blur) */
-      radial-gradient(at 80% 0%, rgba(77, 29, 149, 0.264) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(77, 29, 149, 0.5) 0px, transparent 50%),
       /* 2. Main Red/Orange Spotlight (Center-Left as seen in image) */
-        radial-gradient(at 20% 50%, rgba(153, 27, 27, 0.438) 0px, transparent 70%),
-      /* 3. Subtle Bottom Right Glow */
-        radial-gradient(
-          at 100% 100%,
-          rgba(30, 30, 30, 0.4) 0px,
-          transparent 50%
-        );
+        radial-gradient(at -5% 55%, rgba(77, 29, 149, 0.5) 0px, transparent 55%),
+      radial-gradient(at 80% 100%, rgba(77, 29, 149, 0.5) 0px, transparent 50%);
 
     background-attachment: fixed;
   }
