@@ -13,23 +13,27 @@ type Props = {
     subject: string;
     expiresAt: Date;
   };
+  initialMarked: boolean;
 };
 
-export default function ActiveAttendanceCard({ session }: Props) {
+export default function ActiveAttendanceCard({
+  session,
+  initialMarked,
+}: Props) {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(initialMarked);
   const [isPending, startTransition] = useTransition();
 
   function handleSubmit(formData: FormData) {
     setError(null);
 
     startTransition(async () => {
-      try {
-        await verifyOtpAndMarkAttendance(formData);
+      const result = await verifyOtpAndMarkAttendance(formData);
+      if (result.success) {
         setSuccess(true);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
+      } else {
+        setError(result.message || "Something went wrong");
       }
     });
   }

@@ -2,7 +2,7 @@ import { getStudentDashboardData } from "./actions/student";
 import ActiveAttendanceCard from "./components/ActiveAttendanceCard";
 
 export default async function StudentDashboardPage() {
-  const { student, activeSession, needsProfileSetup } =
+  const { student, activeSession, needsProfileSetup, isAlreadyMarked } =
     await getStudentDashboardData();
 
   return (
@@ -24,7 +24,10 @@ export default async function StudentDashboardPage() {
 
       {/* Active Session */}
       {!needsProfileSetup && activeSession ? (
-        <ActiveAttendanceCard session={activeSession} />
+        <ActiveAttendanceCard
+          session={activeSession}
+          initialMarked={isAlreadyMarked}
+        />
       ) : (
         !needsProfileSetup && (
           <div className="text-muted-foreground text-sm">

@@ -29,6 +29,7 @@ export async function getStudentDashboardData() {
       student,
       activeSession: null,
       needsProfileSetup: true,
+      isAlreadyMarked: false, //default
     };
   }
 
@@ -50,9 +51,24 @@ export async function getStudentDashboardData() {
     },
   });
 
+  // NEW: Check if attendance is already marked for this session
+  let isAlreadyMarked = false;
+  if (activeSession) {
+    const record = await prisma.attendanceRecord.findUnique({
+      where: {
+        sessionId_studentId: {
+          sessionId: activeSession.id,
+          studentId: studentId,
+        },
+      },
+    });
+    isAlreadyMarked = !!record;
+  }
+
   return {
     student,
     activeSession,
     needsProfileSetup: false,
+    isAlreadyMarked,
   };
 }
